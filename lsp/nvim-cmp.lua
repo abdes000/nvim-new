@@ -134,7 +134,9 @@ return {
                     end,
                 },
                 formatting = {
-                    format = require('lspkind').cmp_format({
+                    fields = { "kind", "abbr", "menu" }, -- order of displayed fields
+
+                    format = { require('lspkind').cmp_format({
                         mode = "symbol_text",
                         maxwidth = 50,
                         ellipsis_char = '...',
@@ -145,54 +147,90 @@ return {
                             Codestral = "",
                             Bard = "",
                         }
-                    }),
+                    })
+                    },
+                    {
+                        function(entry, vim_item)
+                            local highlights_info = require("colorful-menu").cmp_highlights(entry)
+
+                            -- highlight_info is nil means we are missing the ts parser, it's
+                            -- better to fallback to use default `vim_item.abbr`. What this plugin
+                            -- offers is two fields: `vim_item.abbr_hl_group` and `vim_item.abbr`.
+                            if highlights_info ~= nil then
+                                vim_item.abbr_hl_group = highlights_info.highlights
+                                vim_item.abbr = highlights_info.text
+                            end
+
+                            return vim_item
+                        end,
+                    },
+                    {
+                        function(entry, vim_item)
+                            -- Add nice icons for completion kinds
+                            local kind_icons = {
+                                Text = "",
+                                Method = "",
+                                Function = "",
+                                Constructor = "",
+                                Field = "",
+                                Variable = "",
+                                Class = "ﴯ",
+                                Interface = "",
+                                Module = "",
+                                Property = "ﰠ",
+                                Unit = "",
+                                Value = "",
+                                Enum = "",
+                                Keyword = "",
+                                Snippet = "",
+                                Color = "",
+                                File = "",
+                                Reference = "",
+                                Folder = "",
+                                EnumMember = "",
+                                Constant = "",
+                                Struct = "",
+                                Event = "",
+                                Operator = "",
+                                TypeParameter = "",
+                            }
+
+                            vim_item.kind = kind_icons[vim_item.kind] or vim_item.kind
+                            vim_item.menu = ({
+                                buffer = "[Buf]",
+                                nvim_lsp = "[LSP]",
+                                luasnip = "[Snip]",
+                                path = "[Path]",
+                            })[entry.source.name]
+
+                            return vim_item
+                        end,
+                    },
+                    {
+                        function(entry, vim_item)
+                            local kind = require("lspkind").cmp_format({
+                                mode = "symbol_text",
+                            })(entry, vim.deepcopy(vim_item))
+                            local highlights_info = require("colorful-menu").cmp_highlights(entry)
+
+                            -- highlight_info is nil means we are missing the ts parser, it's
+                            -- better to fallback to use default `vim_item.abbr`. What this plugin
+                            -- offers is two fields: `vim_item.abbr_hl_group` and `vim_item.abbr`.
+                            if highlights_info ~= nil then
+                                vim_item.abbr_hl_group = highlights_info.highlights
+                                vim_item.abbr = highlights_info.text
+                            end
+                            local strings = vim.split(kind.kind, "%s", { trimempty = true })
+                            vim_item.kind = " " .. (strings[1] or "") .. " "
+                            vim_item.menu = ""
+
+                            return vim_item
+                        end,
+                    }
                 },
                 window = {
-                    completion = cmp.config.window.bordered(), -- adds borders to completion menu
+                    completion = cmp.config.window.bordered(),    -- adds borders to completion menu
                     documentation = cmp.config.window.bordered(), -- adds borders to docs popup
-                },
-                formatting = {
-                    fields = { "kind", "abbr", "menu" }, -- order of displayed fields
-                    format = function(entry, vim_item)
-                        -- Add nice icons for completion kinds
-                        local kind_icons = {
-                            Text = "",
-                            Method = "",
-                            Function = "",
-                            Constructor = "",
-                            Field = "",
-                            Variable = "",
-                            Class = "ﴯ",
-                            Interface = "",
-                            Module = "",
-                            Property = "ﰠ",
-                            Unit = "",
-                            Value = "",
-                            Enum = "",
-                            Keyword = "",
-                            Snippet = "",
-                            Color = "",
-                            File = "",
-                            Reference = "",
-                            Folder = "",
-                            EnumMember = "",
-                            Constant = "",
-                            Struct = "",
-                            Event = "",
-                            Operator = "",
-                            TypeParameter = "",
-                        }
-
-                        vim_item.kind = kind_icons[vim_item.kind] or vim_item.kind
-                        vim_item.menu = ({
-                            buffer = "[Buf]",
-                            nvim_lsp = "[LSP]",
-                            luasnip = "[Snip]",
-                            path = "[Path]",
-                        })[entry.source.name]
-
-                        return vim_item
-                    end,
                 },
 
                 sorting = {

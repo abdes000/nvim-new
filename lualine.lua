@@ -25,5 +25,14 @@ return {
         -- ... other sections ...
       }
     }
+    require('lualine').setup {
+      lualine_x = {
+        {
+          require("interestingwords").lualine_get,
+          cond = require("interestingwords").lualine_has,
+          color = { fg = "#ff9e64" },
+        },
+      }
+    }
   end,
 }

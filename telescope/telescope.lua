@@ -147,6 +147,9 @@ return {
         --If you want to configure the vim_buffer_ previewer (e.g. you want the line to wrap), do this:
 
 
+        require('telescope').load_extension('pineapple')
+        require('telescope').extensions.pineapple.colorschemes()
+        require("telescope").load_extension("ui-select")
         -- telescope_keymaps.lua
         local builtin = require('telescope.builtin')
 

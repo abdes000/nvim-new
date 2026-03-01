@@ -368,6 +368,23 @@ return {
             cond = require("interestingwords").lualine_has,
             color = { fg = "#ff9e64" },
           },
+          {
+            require("music-controls")._statusline,
+          },
+          {
+            require('ecolog.integrations.statusline').lualine(),
+          },
+          {
+            { require("weather.lualine").default_c() },
+            {
+              require("lazy.status").updates,
+              cond = require("lazy.status").has_updates,
+              color = { fg = "#ff9e64" },
+            },
+            { "lsp_status" },
+            { "filesize" },
+            { "filetype" },
+          },
         },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }

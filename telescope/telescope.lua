@@ -90,6 +90,25 @@ return {
                     case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
                     -- the default case_mode is "smart_case"
                 },
+                ecolog = {
+                    shelter = {
+                        -- Whether to show masked values when copying to clipboard
+                        mask_on_copy = false,
+                    },
+                    -- Default keybindings
+                    mappings = {
+                        -- Key to copy value to clipboard
+                        copy_value = "<C-y>",
+                        -- Key to copy name to clipboard
+                        copy_name = "<C-n>",
+                        -- Key to append value to buffer
+                        append_value = "<C-a>",
+                        -- Key to append name to buffer (defaults to <CR>)
+                        append_name = "<CR>",
+                        -- Key to edit environment variable
+                        edit_var = "<C-e>",
+                    },
+                },
                 cmdline = {
                     -- Adjust telescope picker size and layout
                     picker   = {

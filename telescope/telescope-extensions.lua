@@ -156,10 +156,10 @@ return {
             },
             debug = false,
             scoring = {
-                recency_modifier = {     -- also see telescope-frecency for these settings
-                    [1] = { age = 240, value = 100 }, -- past 4 hours
-                    [2] = { age = 1440, value = 80 }, -- past day
-                    [3] = { age = 4320, value = 60 }, -- past 3 days
+                recency_modifier = {                   -- also see telescope-frecency for these settings
+                    [1] = { age = 240, value = 100 },  -- past 4 hours
+                    [2] = { age = 1440, value = 80 },  -- past day
+                    [3] = { age = 4320, value = 60 },  -- past 3 days
                     [4] = { age = 10080, value = 40 }, -- past week
                     [5] = { age = 43200, value = 20 }, -- past month
                     [6] = { age = 129600, value = 10 } -- past 90 days
@@ -168,12 +168,12 @@ return {
                 boost_factor = 0.0001
             },
             default = {
-                disable = true, -- disable any unkown pickers (recommended)
-                use_cwd = true, -- differentiate scoring for each picker based on cwd
+                disable = true,    -- disable any unkown pickers (recommended)
+                use_cwd = true,    -- differentiate scoring for each picker based on cwd
                 sorting = 'recent' -- sorting: options: 'recent' and 'frecency'
             },
-            pickers = { -- allows you to overwrite the default settings for each picker
-                man_pages = { -- enable man_pages picker. Disable cwd and use frecency sorting.
+            pickers = {            -- allows you to overwrite the default settings for each picker
+                man_pages = {      -- enable man_pages picker. Disable cwd and use frecency sorting.
                     disable = false,
                     use_cwd = false,
                     sorting = 'frecency',
@@ -186,6 +186,29 @@ return {
                 }
             }
         }
+        require("telescope").register_extension("echo")
+        local telescope = require('telescope')
+        telescope.setup {
+            extensions = {
+                doodle = {} -- Enable the doodle extension
+            }
+        }
+        -- Load the extension
+        telescope.load_extension('doodle')
+
+        -- Example keymaps for doodle's telescope pickers
+        local keymap = vim.keymap.set
+        keymap("n", "<space>dd", function()
+            telescope.extensions.doodle.find_notes()
+        end, { desc = "Doodle Find Notes" })
+
+        keymap("n", "<space>ff", function()
+            telescope.extensions.doodle.find_files()
+        end, { desc = "Doodle Find Files" })
+
+        keymap("n", "<space>dy", function()
+            telescope.extensions.doodle.find_templates()
+        end, { desc = "Doodle Find Templates" })
         -- =========================
         -- Keymaps (Grouped)
         -- =========================

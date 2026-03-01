@@ -302,6 +302,7 @@ return {
                     { name = "emoji" },
                     { name = "nerdfont" },
                     { name = "greek" },
+                    { name = 'ecolog' },
                     {
                         name = "latex_symbols",
                         option = {

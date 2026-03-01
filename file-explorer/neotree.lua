@@ -626,6 +626,21 @@ return {
       -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
       use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
       -- instead of relying on nvim autocmd events.
+      {
+        window = {
+          mappings = {
+            ["<leader>p"] = "image_wezterm", -- " or another map
+          },
+        },
+        commands = {
+          image_wezterm = function(state)
+            local node = state.tree:get_node()
+            if node.type == "file" then
+              require("image_preview").PreviewImage(node.path)
+            end
+          end,
+        },
+      }
     },
     buffers = {
       bind_to_cwd = true,

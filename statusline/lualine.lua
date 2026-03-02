@@ -19,6 +19,9 @@ return {
     })
   end,
   config = function()
+    local hot = {
+          'Reloader',
+        }
     require('lualine').setup({
       options = {
         icons_enabled = true,
@@ -349,7 +352,7 @@ return {
             show_name = true,
           },
         },
-        lualine_b = { 'branch', 'diff', 'diagnostics' },
+        lualine_b = { 'branch', 'diff', 'diagnostics', hot, },
         lualine_c = {
           'filename',
           { function() return require('bookmarks').status() end },

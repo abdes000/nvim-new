@@ -209,6 +209,9 @@ return {
         keymap("n", "<space>dy", function()
             telescope.extensions.doodle.find_templates()
         end, { desc = "Doodle Find Templates" })
+
+        require("telescope").load_extension("package_info")
+        require("telescope").load_extension("lazygit")
         -- =========================
         -- Keymaps (Grouped)
         -- =========================

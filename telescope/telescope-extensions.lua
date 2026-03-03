@@ -212,6 +212,8 @@ return {
 
         require("telescope").load_extension("package_info")
         require("telescope").load_extension("lazygit")
+        require("telescope").load_extension("yank_history")
+        require("telescope").load_extension("undo")
         -- =========================
         -- Keymaps (Grouped)
         -- =========================
